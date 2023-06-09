@@ -21,4 +21,12 @@ const router = new VueRouter({
   routes
 })
 
+router.beforeEach((to, from, next) => {
+  const isUser = sessionStorage.getItem('user_id');
+  if (!isUser && to.path !== '/signin') {
+    next('/signin'); 
+  } else {
+    next(); 
+  }
+});
 export default router

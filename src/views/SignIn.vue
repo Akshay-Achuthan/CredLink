@@ -79,6 +79,7 @@ export default {
       emailEntered:'',
     };
   },
+  
   methods: {
     async handleClickSignIn() {
       try {
@@ -92,6 +93,29 @@ export default {
           'email': googleUser.getBasicProfile().gw
         }
         
+    fetch("http://192.168.0.210:2100/user/signup",
+    {
+     method: "POST",
+     headers:{'content-type': 'application/json'},
+     body: JSON.stringify({
+      "f_name": userProfile.firstName,
+      "l_name": userProfile.lastName,
+      "email": userProfile.email
+     }),
+ })
+    .then(response => response.json())
+    .then(async response => {
+      console.log('response',response);
+      if(response.status == "success"){
+        this.$router.push('/');
+        sessionStorage.setItem('user_id', response.user_id);
+      }
+    })
+    .catch(error => {
+      console.error("There was an error!", error);
+    });
+
+
         this.isSignIn = this.$gAuth.isAuthorized;
         console.log('userProfile',userProfile);
       } catch (error) {
