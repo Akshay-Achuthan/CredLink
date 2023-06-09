@@ -44,7 +44,7 @@
             Create new Post
           </div>
         </button>
-        <div>
+        <div @click="handleLogout" class="cursor-pointer">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -89,56 +89,61 @@
       v-if="isModalVisible"
       class="fixed inset-0 flex items-center justify-center z-50"
     >
-      <div class="bg-white rounded shadow-lg p-4">
+      <div class="bg-white rounded shadow-lg p-4 w-96">
         <!-- Modal content goes here -->
         <h2 class="text-lg font-bold mb-4">Create a post</h2>
         <div>
-          <form>
-            <div class="mb-6">
-              <label
-                for="email"
-                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >Your email</label
-              >
-              <input
-                type="email"
-                id="email"
-                class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="name@flowbite.com"
-                required
-              />
-            </div>
-            <div class="mb-6">
-              <label
-                for="password"
-                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >Your password</label
-              >
-              <input
-                type="password"
-                id="password"
-                class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                required
-              />
-            </div>
-            <button
-              type="submit"
-              class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          <div class="mb-5">
+            <label
+              for="email"
+              class="block mb-2 text-sm font-medium text-gray-900"
+              >Post title</label
             >
-              Submit
-            </button>
-          </form>
+            <input
+              type="text"
+              v-model="postTitle"
+              id="text"
+              class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              placeholder="My first Post..."
+              required
+            />
+          </div>
+          <div class="mb-6">
+            <label
+              for="password"
+              class="block mb-2 text-sm font-medium text-gray-900"
+              >Post caption</label
+            >
+            <input
+              type="text"
+              v-model="postCaption"
+              id="caption"
+              placeholder="My first caption..."
+              class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              required
+            />
+          </div>
+          <div>
+            <input type="file" ref="image" @change="previewImage" />
+          </div>
+          <div class="bg-gray-200 p-3 rounded-md mt-3">
+            <img
+              v-if="selectedImage"
+              :src="selectedImage"
+              alt="Selected Image"
+            />
+          </div>
         </div>
         <div class="flex flex-row justify-end items-center">
           <button
             @click="hideModal"
-            class="bg-red-500 text-xs text-white px-4 py-2 rounded mt-4"
+            class="bg-white border border-gray-300 text-xs text-black px-4 py-2 rounded mt-4 mr-5"
           >
             Close
           </button>
           <button
-            @click="hideModal"
-            class="bg-blue-500 text-xs text-white px-4 py-2 rounded mt-4"
+            @click="submitForm"
+            class="bg-gray-400 text-xs text-white px-4 py-2 rounded mt-4"
           >
             Post
           </button>
@@ -153,14 +158,50 @@ export default {
   data() {
     return {
       isModalVisible: false,
+      selectedImage: "",
+      postTitle: "",
+      postCaption: "",
     };
   },
   methods: {
+    handleLogout() {
+      let userLogout = confirm("Are you sure you want to logout?");
+      if (userLogout) {
+        sessionStorage.clear();
+        this.$router.push("/signin");
+      }
+    },
     showModal() {
       this.isModalVisible = true;
     },
     hideModal() {
       this.isModalVisible = false;
+    },
+    previewImage(event) {
+      const file = event.target.files[0];
+      this.selectedImage = URL.createObjectURL(file);
+    },
+    submitForm() {
+      const formData = new FormData();
+      formData.append("user_id", 2);
+      formData.append("post_title", this.postTitle);
+      formData.append("post_caption", this.postCaption);
+      formData.append("image", this.$refs.image.files[0]);
+      console.log("formData", formData);
+      fetch("http://192.168.0.166:2100/postcl/createPost", {
+        method: "POST",
+        body: formData,
+      })
+        .then((response) => {
+          console.log("Create post success --->", response);
+          if (response.status == 'success') {
+            alert(response.message);
+            this.selectedImage = '';
+          }
+        })
+        .catch((error) => {
+          console.log("Create post error --->", error);
+        });
     },
   },
 };

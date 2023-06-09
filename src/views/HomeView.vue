@@ -9,6 +9,46 @@
               class="w-full rounded-md shadow-md border border-gray-300 py-3 px-5"
             >
               <div class="flex flex-row justify-between items-center">
+                <div class="text-sm font-bold">Profile</div>
+                <div class="text-xs font-medium text-gray-400">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-4 h-4"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <div class="w-full mt-4">
+                <div class="h-full flex items-center rounded-lg">
+                  <!-- <img
+                    alt="team"
+                    class="w-24 h-24 bg-gray-100 mx-auto object-cover object-center flex-shrink-0 rounded-lg"
+                    src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80"
+                  /> -->
+                  <div class="p-4 mx-auto bg-gray-200 ring-1 ring-gray-500 ring-offset-2 rounded-full">AB</div>
+                </div>
+              </div>
+              <div class="text-xs font-bold text-center w-full mt-4">
+                Clerk Kent
+              </div>
+              <div class="text-xs text-blue-600 font-bold text-center w-full">
+                ClerkKent@credenceanalytics.com
+              </div>
+            </div>
+
+            <div
+              class="w-full rounded-md shadow-md border border-gray-300 py-3 px-5 mt-5"
+            >
+              <div class="flex flex-row justify-between items-center">
                 <div class="text-sm font-bold">Activity</div>
                 <div class="text-xs font-medium text-gray-400">See all</div>
               </div>
