@@ -22,7 +22,7 @@
         <form class="bg-white">
           <h1 class="text-gray-800 font-bold text-2xl mb-1">Hello Again!</h1>
           <p class="text-sm font-normal text-gray-600 mb-7">Welcome Back</p>
-          <div class="flex items-center border-2 py-2 px-3 rounded-2xl mb-4">
+          <!-- <div class="flex items-center border-2 py-2 px-3 rounded-2xl mb-4">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="h-5 w-5 text-gray-400"
@@ -39,18 +39,27 @@
             </svg>
             <input
               class="pl-2 outline-none border-none"
-              type="text"
+              type="email"
               name=""
               id=""
+              v-model="emailEntered"
               placeholder="Email Address"
             />
-          </div>
-          <button
+          </div> -->
+          <!-- <button
             type="submit"
+            @click="validateMail"
             class="block w-full bg-indigo-600 mt-4 py-2 rounded-2xl text-white font-semibold mb-4"
           >
             Login
-          </button>
+          </button> -->
+          <button
+            @click="handleClickSignIn"
+            class="px-4 py-2 cursor-pointer border flex gap-2 border-gray-300 shadow-lg rounded-lg text-slate-700 hover:border-slate-400 hover:text-slate-900 hover:shadow transition duration-150">
+            <img class="w-16 h-6" src="https://www.svgrepo.com/show/475656/google-color.svg" loading="lazy" alt="google logo">
+            <span>Login with Google</span>
+        </button>
+        <div id="alertModal" class="alert-modal" v-if="showAlert">{{ alertMessage }}</div>
         </form>
       </div>
     </div>
@@ -64,13 +73,69 @@ export default {
   },
   data() {
     return {
-      params: {
-        client_id:
-          "283270223619-o7j0far0a334uu4da96ho3kbqp4anv5u.apps.googleusercontent.com",
-      },
+      isSignIn: false,
+      showAlert:false,
+      alertMessage:'please enter a valid email id',
+      emailEntered:'',
     };
   },
   methods: {
+    async handleClickSignIn() {
+      try {
+        const googleUser = await this.$gAuth.signIn();
+        if (!googleUser) {
+          return null;
+        }
+        let userProfile={
+          'firstName': googleUser.getBasicProfile().XZ,
+          'lastName': googleUser.getBasicProfile().nY,
+          'email': googleUser.getBasicProfile().gw
+        }
+        
+        this.isSignIn = this.$gAuth.isAuthorized;
+        console.log('userProfile',userProfile);
+      } catch (error) {
+        console.error(error);
+        return null;
+      }
+    },
+
+    validateMail(){
+      if(this.emailEntered.includes('credenceanalytics')){
+        console.log("success"); // change is needed
+      }else{
+        this.showAlert =  true;
+        setTimeout(() => {
+          this.showAlert = false;
+        }, 3000);
+      }
+    },
   },
 };
 </script>
+
+<style scoped>
+.alert-modal {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #F62817;
+  color: #fff;
+  padding: 10px 15px;
+  border-radius: 10px; 
+  z-index: 9999;
+  animation: alert-modal-animation 0.3s ease-out;
+}
+
+@keyframes alert-modal-animation {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+</style>
