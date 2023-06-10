@@ -1,7 +1,7 @@
 <template>
   <div class="app-home">
     <nav-bar />
-    <section id="main-content" class="mx-40">
+    <section id="main-content" class="mx-38">
       <div class="grid grid-cols-9 gap-6 px-5 py-4">
         <div class="col-span-2 w-full">
           <div class="main-container">
@@ -30,10 +30,10 @@
               <div class="w-full mt-4">
                 <div class="h-full flex items-center rounded-lg">
                   <img
-                    v-if="userProfileData.profile_img"
+                    v-if="imageStore"
                     alt="team"
                     class="w-24 h-24 bg-gray-100 mx-auto object-cover object-center flex-shrink-0 rounded-lg"
-                    src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80"
+                    :src="imageStore"
                   />
                   <div
                     v-else
@@ -82,7 +82,7 @@
               <div class="pt-4 pb-2 text-sm font-bold">New</div>
               <div
                 class="w-full py-2"
-                v-for="(item, index) in [1, 2, 3, 4, 5]"
+                v-for="(item, index) in filteredUSerActivityData"
                 :key="index"
               >
                 <div class="h-full flex items-center rounded-lg">
@@ -93,9 +93,11 @@
                   />
                   <div class="flex-grow">
                     <h2 class="text-gray-900 title-font text-xs font-bold">
-                      Holden Caulfield
+                     <!-- {{ item.user_name }} -->
                     </h2>
-                    <p class="text-gray-500 text-xs">UI Designer</p>
+                    <p class="text-gray-500 text-xs">
+                      <!-- {{ item.upload_time }} -->
+                      </p>
                   </div>
                 </div>
               </div>
@@ -165,6 +167,7 @@
                     stroke="currentColor"
                     :class="`w-5 h-5 ${item.isLiked ? 'text-blue-500' : ''}`"
                   >
+                    <!-- @click="userLikeFunc" -->
                     <path
                       stroke-linecap="round"
                       stroke-linejoin="round"
@@ -188,7 +191,7 @@
                     />
                   </svg>
                 </div>
-                <div>
+                <div @click="handleComments(item)" class="cursor-pointer">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -392,6 +395,40 @@
         </div>
       </div>
     </div>
+    <div
+      v-if="isModalVisibleComments"
+      class="fixed inset-0 flex items-center justify-center z-50"
+    >
+      <div class="bg-white rounded shadow-lg p-4 w-96 relative">
+        <!-- Modal content goes here -->
+        <h2 class="text-sm font-bold mb-4">Comments</h2>
+        <div class="flex flex-col">
+          <div class="h-96">
+            <div class="flex flex-col justify-start text-left for loop" v-for="(item,ind) in [1,1,1,1,1,1,]" :key="ind">
+              <div class="text-xs font-bold">Ajay bendre</div>
+              <p class="text-xs font-medium">Random tect cjjsjs sjsjs  sjsjs sjsjs</p>
+            </div>
+          </div>
+          <div class="w-full">
+            <input
+              class="pl-2 outline-none rounded-md border-2 border-gray-400 w-full"
+              type="text"
+              name=""
+              id=""
+              placeholder="Comments..."
+            />
+          </div>
+        </div>
+        <div class="flex flex-row justify-end items-center">
+          <button
+            @click="hideModalComments"
+            class="bg-white border border-gray-300 text-xs text-black px-4 py-2 rounded mt-4"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -409,8 +446,13 @@ export default {
       userProfileURL: "http://192.168.0.210:2100/user/",
       userProfileData: {},
       userTimeLine: [],
+      imageStore:'',
       singlePostLikes: [],
+      userActivityData:[],
+      userLikedFuncData:[],
+      filteredUSerActivityData:[],
       isModalVisibleLikes: false,
+      isModalVisibleComments:false,
       initials:""
     };
   },
@@ -418,9 +460,23 @@ export default {
   created() {
     this.fetchUserProfileData();
     this.fetchUserTimeline();
+    this.fetchUserActivity();
   },
 
   methods: {
+    // userLikeFunc(){
+    //     this.userTimeLine.map((el) => {
+    //         if(el.isLiked === true){
+              
+    //         }
+    //     })
+    // },
+
+    handleComments(item){
+      this.isModalVisibleComments = true;
+      console.log('item',item);
+      
+    },
     checkValueExists(array, value) {
       return array.some((obj) => Object.values(obj).includes(value));
     },
@@ -428,8 +484,19 @@ export default {
       this.isModalVisibleLikes = true;
       this.singlePostLikes = singleLikes;
     },
+
+    fetchUserActivity(){
+      console.log("user activity data", this.userActivityData)
+      this.filteredUSerActivityData = this.userActivityData.filter((el) => {
+        console.log("el",el);
+        el.user_id === sessionStorage.getItem('user_id');
+      })
+
+      console.log("data",this.filteredUSerActivityData);
+    },
+
     fetchUserTimeline() {
-      fetch("http://192.168.0.166:2100/postcl/getPostList", {
+      fetch("http://192.168.0.210:2100/postcl/getPostList", {
         method: "GET",
         headers: { "content-type": "application/json" },
       })
@@ -438,6 +505,7 @@ export default {
           if (response.status == "success") {
             this.userTimeLine = response.data;
             response.data.map((el, indx) => {
+              this.userActivityData.push(el);
               if (this.checkValueExists(el.child, el.user_name)) {
                 this.userTimeLine[indx]["isLiked"] = true;
               } else {
@@ -474,24 +542,30 @@ export default {
     hideModal() {
       this.isModalVisible = false;
     },
+    hideModalComments() {
+      this.isModalVisibleComments = false;
+    },
     previewImage(event) {
       const file = event.target.files[0];
       this.selectedImage = URL.createObjectURL(file);
     },
     submitForm() {
       const formData = new FormData();
-      formData.append("user_id", sessionstorage.getItem("user_id"));
+      formData.append("user_id", sessionStorage.getItem("user_id"));
       formData.append("image", this.$refs.image.files[0]);
-      console.log("formData", formData);
-      fetch("", {
+      fetch("http://192.168.0.210:2100/profile", {
         method: "POST",
         body: formData,
       })
-        .then((response) => {
-          console.log("Create post success --->", response);
+        .then((response) => response.json())
+        .then(async (response) => {
+          console.log("Create post success +++++++++", response);
           if (response.status == "success") {
-            alert(response.message);
+            alert("Profile Successfully updated");
+            this.imageStore = response.profile_img;
             this.selectedImage = "";
+            this.isModalVisible = false;
+            // location.reload();
           }
         })
         .catch((error) => {

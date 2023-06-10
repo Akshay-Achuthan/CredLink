@@ -183,19 +183,22 @@ export default {
     },
     submitForm() {
       const formData = new FormData();
-      formData.append("user_id", 2);
+      formData.append("user_id", sessionStorage.getItem('user_id'));
       formData.append("post_title", this.postTitle);
       formData.append("post_caption", this.postCaption);
       formData.append("image", this.$refs.image.files[0]);
       console.log("formData", formData);
-      fetch("http://192.168.0.166:2100/postcl/createPost", {
+      fetch("http://192.168.0.210:2100/postcl/createPost", {
         method: "POST",
         body: formData,
       })
-        .then((response) => {
+        .then((response) => response.json())
+        .then(async (response) => {
           console.log("Create post success --->", response);
           if (response.status == 'success') {
             alert(response.message);
+            this.isModalVisible = false;
+            location.reload();
             this.selectedImage = '';
           }
         })
