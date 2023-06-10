@@ -74,8 +74,8 @@
                 <div class="text-sm font-bold">Activity</div>
                 <div class="text-xs font-medium text-gray-400">See all</div>
               </div>
-              <div class="text-sm font-bold pt-5 pb-4">Stories About You</div>
-              <div class="w-full">
+              <!-- <div class="text-sm font-bold pt-5 pb-4">Stories About You</div> -->
+              <!-- <div class="w-full">
                 <div class="h-full flex items-center rounded-lg">
                   <img
                     alt="team"
@@ -89,7 +89,7 @@
                     <p class="text-gray-500 text-xs">UI Designer</p>
                   </div>
                 </div>
-              </div>
+              </div> -->
               <div class="pt-4 pb-2 text-sm font-bold">New</div>
               <div
                 class="w-full py-2"
@@ -122,15 +122,13 @@
                   <div class="overflow-x-auto scrollbar-hide">
                     <div class="flex space-x-4">
                       <template
-                        v-for="(item, index) in [
-                          1, 2, 3, 4, 5, 6, 7, 8, 9, 8, 8, 8,
-                        ]"
+                        v-for="(item, index) in userTimeLine"
                       >
                         <div :key="index" class="flex-shrink-0">
                           <img
                             class="w-32 h-40 block mx-auto mb-5 object-cover object-center rounded"
                             alt="hero"
-                            :src="`https://picsum.photos/id/${item}/200/300`"
+                            :src="item.user_post"
                           />
                         </div>
                       </template>
