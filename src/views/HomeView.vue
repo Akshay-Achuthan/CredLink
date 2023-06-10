@@ -39,26 +39,15 @@
                     v-else
                     class="p-4 mx-auto bg-gray-200 ring-1 ring-gray-500 ring-offset-2 rounded-full"
                   >
-                    AB
+                    {{ initials }}
                   </div>
                 </div>
               </div>
-              <div class="text-xs font-bold text-center w-full mt-4">
-                {{ userProfileData.f_name }} {{ userProfileData.l_name }}
-                <button @click="showModal">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                    class="w-6 h-6"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
-                    />
+              <div class="text-xs font-bold text-center w-full mt-4 flex items-center justify-center">
+                <span class="mr-1">{{ userProfileData.f_name }} {{ userProfileData.l_name }}</span>
+                <button @click="showModal" class="p-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
                   </svg>
                 </button>
               </div>
@@ -422,6 +411,7 @@ export default {
       userTimeLine: [],
       singlePostLikes: [],
       isModalVisibleLikes: false,
+      initials:""
     };
   },
 
@@ -470,6 +460,7 @@ export default {
         .then((response) => response.json())
         .then(async (response) => {
           this.userProfileData = response.resData;
+          this.initials = this.userProfileData.f_name.charAt(0) + this.userProfileData.l_name.charAt(0);
           console.log("response", response);
         })
         .catch((error) => {
