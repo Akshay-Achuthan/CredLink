@@ -23,10 +23,17 @@ const router = new VueRouter({
 
 // router.beforeEach((to, from, next) => {
 //   const isUser = sessionStorage.getItem('user_id');
-//   if (!isUser && to.path !== '/signin') {
-//     next('/signin'); 
+//   console.log('user', isUser);
+
+//   if (to.path === '/signin' && isUser) {
+//     next('/');
+//   } else if (to.path !== '/signin' && !isUser) {
+//     next('/signin');
 //   } else {
-//     next(); 
+//     next();
 //   }
 // });
+
+
 export default router
+

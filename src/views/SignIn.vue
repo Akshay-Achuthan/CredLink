@@ -107,8 +107,8 @@ export default {
     .then(async response => {
       console.log('response',response);
       if(response.status == "success"){
-        this.$router.push('/');
         sessionStorage.setItem('user_id', response.user_id);
+        location.reload();
       }
     })
     .catch(error => {

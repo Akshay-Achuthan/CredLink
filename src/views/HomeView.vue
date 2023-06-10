@@ -29,23 +29,26 @@
               </div>
               <div class="w-full mt-4">
                 <div class="h-full flex items-center rounded-lg">
-                  <!-- <img
+                  <img
+                    v-if="userProfileData.profile_img"
                     alt="team"
                     class="w-24 h-24 bg-gray-100 mx-auto object-cover object-center flex-shrink-0 rounded-lg"
                     src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80"
-                  /> -->
-                  <div
-                    class="p-4 mx-auto bg-gray-200 ring-1 ring-gray-500 ring-offset-2 rounded-full"
-                  >
-                    AB
-                  </div>
+                  />
+                  <div v-else class="p-4 mx-auto bg-gray-200 ring-1 ring-gray-500 ring-offset-2 rounded-full">AB</div>
                 </div>
               </div>
               <div class="text-xs font-bold text-center w-full mt-4">
-                Clerk Kent
+                {{ userProfileData.f_name }} {{ userProfileData.l_name }}
+               <button @click="showModal">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+</svg>
+</button>
+
               </div>
               <div class="text-xs text-blue-600 font-bold text-center w-full">
-                ClerkKent@credenceanalytics.com
+                {{ userProfileData.email }}
               </div>
             </div>
 
@@ -286,6 +289,41 @@
           </div>
         </div>
       </div>
+      <div
+      v-if="isModalVisible"
+      class="fixed inset-0 flex items-center justify-center z-50"
+    >
+      <div class="bg-white rounded shadow-lg p-4 w-96">
+        <!-- Modal content goes here -->
+        <h2 class="text-lg font-bold mb-4">Create a post</h2>
+        <div>
+          <div>
+            <input type="file" ref="image" @change="previewImage" />
+          </div>
+          <div class="bg-gray-200 p-3 rounded-md mt-3">
+            <img
+              v-if="selectedImage"
+              :src="selectedImage"
+              alt="Selected Image"
+            />
+          </div>
+        </div>
+        <div class="flex flex-row justify-end items-center">
+          <button
+            @click="hideModal"
+            class="bg-white border border-gray-300 text-xs text-black px-4 py-2 rounded mt-4 mr-5"
+          >
+            Close
+          </button>
+          <button
+            @click="submitForm"
+            class="bg-gray-400 text-xs text-white px-4 py-2 rounded mt-4"
+          >
+            Save
+          </button>
+        </div>
+      </div>
+    </div>
     </section>
     <div
       v-if="isModalVisible"
@@ -354,20 +392,68 @@ export default {
   components: {
     "nav-bar": Navbar,
   },
-  data() {
-    return {
+  data(){
+    return{
       isModalVisible: false,
-      userTimeline: [],
-    };
+      userProfileURL:'http://192.168.0.210:2100/user/',
+      userProfileData:{},
+    }
   },
-  methods: {
+
+  created(){
+    this.fetchUserProfileData();
+  },
+
+  methods:{
+    fetchUserProfileData(){   
+      const uID = sessionStorage.getItem('user_id')     
+    fetch(this.userProfileURL + uID,
+    {
+     method: "GET",
+     headers:{'content-type': 'application/json'},
+ })
+    .then(response => response.json())
+    .then(async response => {
+      this.userProfileData = response.resData;
+      console.log('response',response);
+
+    })
+    .catch(error => {
+      console.error("There was an error!", error);
+    });
+    },
+
     showModal() {
       this.isModalVisible = true;
     },
     hideModal() {
       this.isModalVisible = false;
     },
-  },
+    previewImage(event) {
+      const file = event.target.files[0];
+      this.selectedImage = URL.createObjectURL(file);
+    },
+    submitForm() {
+      const formData = new FormData();
+      formData.append("user_id", sessionstorage.getItem('user_id'));
+      formData.append("image", this.$refs.image.files[0]);
+      console.log("formData", formData);
+      fetch("", {
+        method: "POST",
+        body: formData,
+      })
+        .then((response) => {
+          console.log("Create post success --->", response);
+          if (response.status == 'success') {
+            alert(response.message);
+            this.selectedImage = '';
+          }
+        })
+        .catch((error) => {
+          console.log("Create post error --->", error);
+        });
+    },
+  }
 };
 </script>
 <style scoped>
