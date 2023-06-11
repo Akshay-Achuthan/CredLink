@@ -88,7 +88,7 @@ export default {
             // console.log('response',response);
             if(response.status == "success"){
               sessionStorage.setItem('user_id', response.user_id);
-              this.$router.push('/');
+              this.$router.push('/home');
               location.reload();
             }
           })
