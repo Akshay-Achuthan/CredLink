@@ -1,6 +1,9 @@
 <template>
   <div class="app-home">
-    <nav-bar />
+    <nav-bar 
+    :imageStore="imageStore"
+    :initials="initials"/>
+
     <section id="main-content" class="mx-38">
       <div class="grid grid-cols-9 gap-6 px-5 py-4">
         <div class="col-span-2 w-full">
@@ -10,22 +13,6 @@
             >
               <div class="flex flex-row justify-between items-center">
                 <div class="text-sm font-bold">Profile</div>
-                <div class="text-xs font-medium text-gray-400">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                    class="w-4 h-4"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z"
-                    />
-                  </svg>
-                </div>
               </div>
               <div class="w-full mt-4">
                 <div class="h-full flex items-center rounded-lg">
@@ -45,7 +32,7 @@
               </div>
               <div class="text-xs font-bold text-center w-full mt-4 flex items-center justify-center">
                 <span class="mr-1">{{ userProfileData.f_name }} {{ userProfileData.l_name }}</span>
-                <button @click="showModal" class="p-1">
+                <button @click="showModalProfile" class="p-1">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
                   </svg>
@@ -59,44 +46,30 @@
             <div
               class="w-full rounded-md shadow-md border border-gray-300 py-3 px-5 mt-5"
             >
-              <div class="flex flex-row justify-between items-center">
+              <div class="flex flex-row justify-between items-center mb-2">
                 <div class="text-sm font-bold">Activity</div>
-                <div class="text-xs font-medium text-gray-400">See all</div>
               </div>
-              <!-- <div class="text-sm font-bold pt-5 pb-4">Stories About You</div> -->
-              <!-- <div class="w-full">
-                <div class="h-full flex items-center rounded-lg">
-                  <img
-                    alt="team"
-                    class="w-12 h-12 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4"
-                    src="https://dummyimage.com/80x80"
-                  />
-                  <div class="flex-grow">
-                    <h2 class="text-gray-900 title-font text-sm font-bold">
-                      Holden Caulfield
-                    </h2>
-                    <p class="text-gray-500 text-xs">UI Designer</p>
-                  </div>
-                </div>
-              </div> -->
-              <div class="pt-4 pb-2 text-sm font-bold">New</div>
               <div
                 class="w-full py-2"
-                v-for="(item, index) in filteredUSerActivityData"
-                :key="index"
+                v-for="(item, index) in [1, 2, 3, 4, 5]"
+              :key="index"
               >
-                <div class="h-full flex items-center rounded-lg">
+                <div class="h-full flex items-center rounded-lg"
+                >
                   <img
                     alt="team"
                     class="w-8 h-8 ring-1 ring-blue-500 ring-offset-2 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4"
                     src="https://dummyimage.com/80x80"
                   />
-                  <div class="flex-grow">
+                  <div class="flex-grow"
+                  >
                     <h2 class="text-gray-900 title-font text-xs font-bold">
-                     <!-- {{ item.user_name }} -->
+                     <!-- {{ item.user_name }} --> 
+                     Holden Caulfield
                     </h2>
                     <p class="text-gray-500 text-xs">
                       <!-- {{ item.upload_time }} -->
+                      UI Designer
                       </p>
                   </div>
                 </div>
@@ -191,7 +164,7 @@
                     />
                   </svg>
                 </div>
-                <div @click="handleComments(item)" class="cursor-pointer">
+                <div @click="isModalVisibleComments" class="cursor-pointer">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -256,22 +229,6 @@
           >
             <div class="flex flex-row justify-between items-center mb-4">
               <div class="text-left font-bold text-sm">Friends</div>
-              <div>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="1.5"
-                  stroke="currentColor"
-                  class="w-4 h-4"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"
-                  />
-                </svg>
-              </div>
             </div>
             <div
               class="w-full py-2"
@@ -296,12 +253,12 @@
         </div>
       </div>
       <div
-        v-if="isModalVisible"
+        v-if="isModalVisibleProfile"
         class="fixed inset-0 flex items-center justify-center z-50"
       >
         <div class="bg-white rounded shadow-lg p-4 w-96">
           <!-- Modal content goes here -->
-          <h2 class="text-lg font-bold mb-4">Create a post</h2>
+          <h2 class="text-lg font-bold mb-4">Update Profile Photo</h2>
           <div>
             <div>
               <input type="file" ref="image" @change="previewImage" />
@@ -316,14 +273,14 @@
           </div>
           <div class="flex flex-row justify-end items-center">
             <button
-              @click="hideModal"
+              @click="hideModalProfile"
               class="bg-white border border-gray-300 text-xs text-black px-4 py-2 rounded mt-4 mr-5"
             >
               Close
             </button>
             <button
               @click="submitForm"
-              class="bg-gray-400 text-xs text-white px-4 py-2 rounded mt-4"
+              class="bg-red-500 text-xs text-white px-4 py-2 rounded mt-4"
             >
               Save
             </button>
@@ -387,7 +344,7 @@
         </div>
         <div class="flex flex-row justify-end items-center">
           <button
-            @click="hideModal"
+            @click="hideModalLikes"
             class="bg-white border border-gray-300 text-xs text-black px-4 py-2 rounded mt-4"
           >
             Close
@@ -442,17 +399,16 @@ export default {
   },
   data() {
     return {
-      isModalVisible: false,
       userProfileURL: "http://192.168.0.210:2100/user/",
       userProfileData: {},
       userTimeLine: [],
       imageStore:'',
       singlePostLikes: [],
       userActivityData:[],
-      userLikedFuncData:[],
       filteredUSerActivityData:[],
       isModalVisibleLikes: false,
       isModalVisibleComments:false,
+      isModalVisibleProfile: false,
       initials:""
     };
   },
@@ -472,11 +428,11 @@ export default {
     //     })
     // },
 
-    handleComments(item){
-      this.isModalVisibleComments = true;
-      console.log('item',item);
+    // handleComments(item){
+    //   this.isModalVisibleComments = true;
+    //   console.log('item',item);
       
-    },
+    // },
     checkValueExists(array, value) {
       return array.some((obj) => Object.values(obj).includes(value));
     },
@@ -536,11 +492,14 @@ export default {
         });
     },
 
-    showModal() {
-      this.isModalVisible = true;
+    showModalProfile() {
+      this.isModalVisibleProfile = true;
     },
-    hideModal() {
-      this.isModalVisible = false;
+    hideModalProfile() {
+      this.isModalVisibleProfile = false;
+    },
+    hideModalLikes() {
+      this.isModalVisibleLikes = false;
     },
     hideModalComments() {
       this.isModalVisibleComments = false;
@@ -564,7 +523,7 @@ export default {
             alert("Profile Successfully updated");
             this.imageStore = response.profile_img;
             this.selectedImage = "";
-            this.isModalVisible = false;
+            this.isModalVisibleProfile = false;
             // location.reload();
           }
         })
