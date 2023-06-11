@@ -80,10 +80,17 @@
         </div>
         <div class="ml-5">
           <img
+            v-if="imageStore"
             class="object-cover w-8 h-8 rounded-full"
-            src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80"
+            :src="imageStore"
             alt=""
           />
+          <div
+            v-else
+            class="p-4 mx-auto bg-gray-200 ring-1 ring-gray-500 ring-offset-2 rounded-full"
+          >
+            {{ initials }}
+          </div>
         </div>
       </div>
     </div>
@@ -180,6 +187,7 @@
 </template>
 <script>
 export default {
+  props:['imageStore','initials'],
   name: "Navbar",
   data() {
     return {
