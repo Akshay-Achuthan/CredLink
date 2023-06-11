@@ -20,7 +20,7 @@
             d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"
           ></path>
         </svg>
-        <span class="ml-3 text-xl font-bold">CredLink</span>
+        <span class="ml-3 text-xl font-bold" style="letter-spacing:3px;">CREDLink</span>
       </a>
       <div class="flex flex-row items-center">
         <button
@@ -44,10 +44,11 @@
             Create new Post
           </div>
         </button>
-        <div @click="handleLogout" class="cursor-pointer">
+        <div @click="showLogoutModal" class="cursor-pointer">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
+            color="#000"
             viewBox="0 0 24 24"
             stroke-width="1.5"
             stroke="currentColor"
@@ -63,6 +64,7 @@
         <div class="ml-5">
           <svg
             xmlns="http://www.w3.org/2000/svg"
+            color="#000"
             fill="none"
             viewBox="0 0 24 24"
             stroke-width="1.5"
@@ -104,7 +106,7 @@
               v-model="postTitle"
               id="text"
               class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-              placeholder="My first Post..."
+              placeholder="Please enter your post title"
               required
             />
           </div>
@@ -118,7 +120,7 @@
               type="text"
               v-model="postCaption"
               id="caption"
-              placeholder="My first caption..."
+              placeholder="Please enter your post caption"
               class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               required
             />
@@ -143,13 +145,37 @@
           </button>
           <button
             @click="submitForm"
-            class="bg-gray-400 text-xs text-white px-4 py-2 rounded mt-4"
+            class="bg-red-500 text-xs text-white px-4 py-2 rounded mt-4"
           >
             Post
           </button>
         </div>
       </div>
     </div>
+
+    <!-- Logout Confirmation Modal -->
+    <div v-if="isLogoutShowModal" class="fixed inset-0 flex items-center justify-center z-50">
+  <div class="bg-white rounded shadow-lg p-4 w-80">
+    <h2 class="text-lg font-bold mb-4 text-center">Logout Confirmation</h2>
+    <p class="text-center">Are you sure you want to logout?</p>
+    <div class="flex flex-row justify-center items-center mt-4">
+      <button
+        @click="hideLogoutModal"
+        class="bg-gray-200 text-xs text-gray-800 px-4 py-2 rounded mr-2 hover:bg-gray-300 focus:outline-none"
+      >
+        No
+      </button>
+      <button
+        @click="handleLogoutConfirmation"
+        class="bg-red-500 text-xs text-white px-4 py-2 rounded hover:bg-red-600 focus:outline-none"
+      >
+        Yes
+      </button>
+    </div>
+  </div>
+  <!-- <div class="fixed inset-0 bg-black opacity-50"></div> -->
+</div>
+
   </header>
 </template>
 <script>
@@ -161,16 +187,21 @@ export default {
       selectedImage: "",
       postTitle: "",
       postCaption: "",
+      isLogoutShowModal: false,
     };
   },
   methods: {
-    handleLogout() {
-      let userLogout = confirm("Are you sure you want to logout?");
-      if (userLogout) {
+    showLogoutModal() {
+      this.isLogoutShowModal = true;
+    },
+    hideLogoutModal() {
+      this.isLogoutShowModal = false;
+    },
+    handleLogoutConfirmation() {
         sessionStorage.clear();
         this.$router.push("/signin");
-      }
-    },
+      },
+
     showModal() {
       this.isModalVisible = true;
     },
