@@ -31,7 +31,7 @@
           <button
             @click="handleClickSignIn"
             class="px-4 py-2 cursor-pointer border flex gap-2 border-gray-300 shadow-lg rounded-lg text-slate-700 hover:border-slate-400 hover:text-slate-900 hover:shadow transition duration-150">
-            <img class="w-16 h-6" src="https://www.svgrepo.com/show/475656/google-color.svg" loading="lazy" alt="google logo">
+            <img class="w-6 h-6" src="https://www.svgrepo.com/show/475656/google-color.svg" loading="lazy" alt="google logo">
             <span>Login with Google</span>
         </button>
         <div id="alertModal" class="alert-modal" v-if="showAlert">{{ alertMessage }}</div>
