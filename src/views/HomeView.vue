@@ -507,7 +507,7 @@
       >
         <div class="bg-white rounded shadow-lg p-4 w-96">
           <!-- Modal content goes here -->
-          <h2 class="text-lg font-bold mb-4">Create a post</h2>
+          <h2 class="text-lg font-bold mb-4">Edit Profile</h2>
           <div>
             <div>
               <input type="file" ref="image" @change="previewImage" />
@@ -680,10 +680,11 @@ export default {
   data() {
     return {
       isModalVisible: false,
-      userProfileURL: "http://192.168.0.165:2100/user/",
+      userProfileURL: "http://192.168.0.209:2100/user/",
       userProfileData: {},
       userTimeLine: [],
       imageStore: "",
+      selectedImage:'',
       singlePostLikes: [],
       userActivityData: [],
       userLikedFuncData: [],
@@ -747,7 +748,7 @@ export default {
   },
 
   created() {
-    // this.fetchUserProfileData();
+    this.fetchUserProfileData();
     this.fetchUserTimeline();
   },
 
@@ -758,7 +759,7 @@ export default {
         userId: sessionStorage.getItem("user_id"),
         userReaction: reactVal,
       };
-      fetch("http://192.168.0.165:2100/like/user_reaction", {
+      fetch("http://192.168.0.209:2100/like/user_reaction", {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -781,7 +782,7 @@ export default {
         comment: this.userComment,
       };
       console.log("this.currentPostData", this.currentPostData);
-      fetch("http://192.168.0.165:2100/comments/create", {
+      fetch("http://192.168.0.209:2100/comments/create", {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -812,7 +813,7 @@ export default {
     handleComments(item) {
       this.isModalVisibleComments = true;
       this.currentPostData = item;
-      fetch(`http://192.168.0.165:2100/comments/${item.post_id}`, {
+      fetch(`http://192.168.0.209:2100/comments/${item.post_id}`, {
         method: "GET",
         headers: { "content-type": "application/json" },
       })
@@ -846,7 +847,7 @@ export default {
     },
 
     fetchUserTimeline() {
-      fetch("http://192.168.0.165:2100/postcl/getPostList", {
+      fetch("http://192.168.0.209:2100/postcl/getPostList", {
         method: "GET",
         headers: { "content-type": "application/json" },
       })
@@ -907,7 +908,7 @@ export default {
       const formData = new FormData();
       formData.append("user_id", sessionStorage.getItem("user_id"));
       formData.append("image", this.$refs.image.files[0]);
-      fetch("http://192.168.0.165:2100/profile", {
+      fetch("http://192.168.0.209:2100/profile", {
         method: "POST",
         body: formData,
       })

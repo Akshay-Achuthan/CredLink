@@ -19,7 +19,7 @@
         </div>
       </div>
       <div class="flex w-1/2 justify-center items-center bg-white">
-        <form class="bg-white">
+        <div class="bg-white">
           <h1 class="text-gray-800 font-bold text-2xl mb-1">Hello Again!</h1>
           <p class="text-sm font-normal text-gray-600 mb-7">Welcome Back</p>
           <!-- <div class="flex items-center border-2 py-2 px-3 rounded-2xl mb-4">
@@ -60,7 +60,7 @@
             <span>Login with Google</span>
         </button>
         <div id="alertModal" class="alert-modal" v-if="showAlert">{{ alertMessage }}</div>
-        </form>
+        </div>
       </div>
     </div>
   </div>
@@ -93,7 +93,7 @@ export default {
           'email': googleUser.getBasicProfile().gw
         }
         
-    fetch("http://192.168.0.165:2100/user/signup",
+    fetch("http://192.168.0.209:2100/user/signup",
     {
      method: "POST",
      headers:{'content-type': 'application/json'},
@@ -109,7 +109,7 @@ export default {
       if(response.status == "success"){
         sessionStorage.setItem('user_id', response.user_id);
         this.$router.push('/');
-        location.reload();
+        // location.reload();
       }
     })
     .catch(error => {
