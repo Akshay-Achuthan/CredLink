@@ -196,7 +196,7 @@ export default {
       formData.append("post_caption", this.postCaption);
       formData.append("image", this.$refs.image.files[0]);
       console.log("formData", formData);
-      fetch("http://192.168.0.210:2100/postcl/createPost", {
+      fetch("http://192.168.0.165:2100/postcl/createPost", {
         method: "POST",
         body: formData,
       })

@@ -43,11 +43,27 @@
                   </div>
                 </div>
               </div>
-              <div class="text-xs font-bold text-center w-full mt-4 flex items-center justify-center">
-                <span class="mr-1">{{ userProfileData.f_name }} {{ userProfileData.l_name }}</span>
+              <div
+                class="text-xs font-bold text-center w-full mt-4 flex items-center justify-center"
+              >
+                <span class="mr-1"
+                  >{{ userProfileData.f_name }}
+                  {{ userProfileData.l_name }}</span
+                >
                 <button @click="showModal" class="p-1">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-4 h-4"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
+                    />
                   </svg>
                 </button>
               </div>
@@ -93,11 +109,11 @@
                   />
                   <div class="flex-grow">
                     <h2 class="text-gray-900 title-font text-xs font-bold">
-                     <!-- {{ item.user_name }} -->
+                      <!-- {{ item.user_name }} -->
                     </h2>
                     <p class="text-gray-500 text-xs">
                       <!-- {{ item.upload_time }} -->
-                      </p>
+                    </p>
                   </div>
                 </div>
               </div>
@@ -108,13 +124,49 @@
           <div class="main-stories-summary">
             <div class="flex flex-col justify-start text-left">
               <div class="text-md font-bold mb-4">Stories</div>
+              <div class="user-stories">
+                <div>
+                  <div class="w-full overflow-x-auto">
+                    <div class="flex flex-row w-full">
+                      <div class="overflow-x-auto scrollbar-hide">
+                        <div class="flex space-x-4 m-4 mt-3">
+                          <div
+                            class="flex flex-col items-center space-y-1 relative"
+                          >
+                            <div class="flex-shrink-0">
+                              <img
+                                alt="team"
+                                class="w-12 h-12 ring-1 ring-blue-500 ring-offset-2 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4"
+                                src="https://images.unsplash.com/photo-1600180758890-6b94519a8ba6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80"
+                              />
+                            </div>
+                            <button
+                              class="absolute bottom-6 -right-1 bg-purple-800 rounded-full h-5 w-5 text-2xl text-white font-semibold border-2 border-white flex justify-center items-center font-mono hover:bg-blue-700"
+                            >
+                              +
+                            </button>
+                            <a href="#"> You </a>
+                          </div>
+                          <template v-for="(item, index) in friendsData">
+                            <div :key="index" class="flex-shrink-0">
+                              <img
+                                alt="team"
+                                class="w-12 h-12 ring-1 ring-blue-500 ring-offset-2 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4"
+                                :src="item.img"
+                              />
+                            </div>
+                          </template>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <div class="w-full overflow-x-auto">
                 <div class="flex flex-row w-full">
                   <div class="overflow-x-auto scrollbar-hide">
                     <div class="flex space-x-4">
-                      <template
-                        v-for="(item, index) in userTimeLine"
-                      >
+                      <template v-for="(item, index) in userTimeLine">
                         <div :key="index" class="flex-shrink-0">
                           <img
                             class="w-32 h-40 block mx-auto mb-5 object-cover object-center rounded"
@@ -129,9 +181,130 @@
               </div>
             </div>
           </div>
+          <div class="upload-posts">
+            <div
+              class="w-full rounded-md bg-white px-5 py-5 border border-gray-300"
+            >
+              <div class="flex flex-row items-center space-x-3">
+                <img
+                  class="object-cover w-8 h-8 rounded-full"
+                  src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80"
+                  alt=""
+                />
+                <input
+                  class="p-2 rounded-full w-full text-sm outline-none border border-gray-300"
+                  type="text"
+                  name=""
+                  id=""
+                  placeholder="What's on your mind"
+                />
+              </div>
+              <div class="flex flex-row justify-between items-center mt-4">
+                <div class="flex flex-row items-center space-x-4">
+                  <div>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="w-5 h-5"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z"
+                      />
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM18.75 10.5h.008v.008h-.008V10.5z"
+                      />
+                    </svg>
+                  </div>
+                  <div>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="w-5 h-5"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
+                      />
+                    </svg>
+                  </div>
+                  <div>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="w-5 h-5"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 01-6.364-6.364l10.94-10.94A3 3 0 1119.5 7.372L8.552 18.32m.009-.01l-.01.01m5.699-9.941l-7.81 7.81a1.5 1.5 0 002.112 2.13"
+                      />
+                    </svg>
+                  </div>
+                  <div>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="w-5 h-5"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"
+                      />
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
+                      />
+                    </svg>
+                  </div>
+                  <div>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="w-5 h-5"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M15.182 15.182a4.5 4.5 0 01-6.364 0M21 12a9 9 0 11-18 0 9 9 0 0118 0zM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75zm-.375 0h.008v.015h-.008V9.75zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75zm-.375 0h.008v.015h-.008V9.75z"
+                      />
+                    </svg>
+                  </div>
+                </div>
+                <div>
+                  <button
+                    class="py-1 px-4 rounded-md text-xs font-medium bg-indigo-600 text-white"
+                  >
+                    Post
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
           <div class="user-posts flex flex-col overflow-y-auto h-96">
             <div
-              class="post-card border border-gray-300 shadow-md rounded-md px-4 py-3 mt-3"
+              class="post-card border bg-white border-gray-300 shadow-md rounded-md px-4 py-3 mt-3"
               v-for="(item, index) in userTimeLine"
               :key="index"
             >
@@ -275,20 +448,51 @@
             </div>
             <div
               class="w-full py-2"
-              v-for="(item, index) in [1, 2, 3, 4, 5]"
+              v-for="(item, index) in friendsData"
               :key="index"
             >
               <div class="h-full flex items-center rounded-lg">
                 <img
                   alt="team"
                   class="w-8 h-8 ring-1 ring-blue-500 ring-offset-2 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4"
-                  src="https://dummyimage.com/80x80"
+                  :src="item.img"
                 />
                 <div class="flex-grow">
                   <h2 class="text-gray-900 title-font text-xs font-bold">
-                    Holden Caulfield
+                    {{ item.name }}
                   </h2>
-                  <p class="text-gray-500 text-xs">UI Designer</p>
+                  <p class="text-gray-500 text-xs">{{ item.code }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="trending-stories mt-4">
+            <div
+              class="w-full rounded-md shadow-md bg-white border border-gray-300 py-3 px-5"
+            >
+              <div class="w-full text-left font-bold text-sm mb-4">
+                Upcoming events
+              </div>
+
+              <div class="flex flex-col">
+                <div
+                  class="w-full"
+                  v-for="(item, index) in upComingEvents"
+                  :key="index"
+                >
+                  <div class="h-full flex items-center p-2 rounded-lg">
+                    <div class="flex-grow">
+                      <h2 class="text-gray-900 text-xs title-font font-bold">
+                        {{ item.title }}
+                      </h2>
+                      <p class="text-gray-500 text-xs">{{ item.date }}</p>
+                    </div>
+                    <img
+                      alt="team"
+                      class="w-16 h-10 bg-gray-100 object-cover object-center flex-shrink-0 rounded-md ml-4"
+                      :src="item.img"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -404,19 +608,45 @@
         <h2 class="text-sm font-bold mb-4">Comments</h2>
         <div class="flex flex-col">
           <div class="h-96">
-            <div class="flex flex-col justify-start text-left for loop" v-for="(item,ind) in [1,1,1,1,1,1,]" :key="ind">
-              <div class="text-xs font-bold">Ajay bendre</div>
-              <p class="text-xs font-medium">Random tect cjjsjs sjsjs  sjsjs sjsjs</p>
+            <div
+              class="flex flex-col justify-start text-left for loop"
+              v-for="(item, ind) in commentsData"
+              :key="ind"
+            >
+              <div class="text-xs font-bold capitalize">{{ item.user_name }}</div>
+              <p class="text-xs font-medium">
+                {{item.comment}}
+              </p>
             </div>
           </div>
-          <div class="w-full">
+          <div class="w-full flex flex-row items-center">
             <input
               class="pl-2 outline-none rounded-md border-2 border-gray-400 w-full"
               type="text"
               name=""
+              v-model="userComment"
               id=""
               placeholder="Comments..."
             />
+            <button
+              @click="handleAddComment()"
+              class="bg-indigo-600 px-3 py-2 ml-3 rounded-md"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-3 h-3 text-white"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"
+                />
+              </svg>
+            </button>
           </div>
         </div>
         <div class="flex flex-row justify-end items-center">
@@ -429,53 +659,147 @@
         </div>
       </div>
     </div>
+    <app-footer />
   </div>
 </template>
 
 <script>
 import Navbar from "@/components/Navbar.vue";
+import Footer from "@/components/Footer.vue";
 
 export default {
   name: "HomeView",
   components: {
     "nav-bar": Navbar,
+    "app-footer": Footer,
   },
   data() {
     return {
       isModalVisible: false,
-      userProfileURL: "http://192.168.0.210:2100/user/",
+      userProfileURL: "http://192.168.0.165:2100/user/",
       userProfileData: {},
       userTimeLine: [],
-      imageStore:'',
+      imageStore: "",
       singlePostLikes: [],
-      userActivityData:[],
-      userLikedFuncData:[],
-      filteredUSerActivityData:[],
+      userActivityData: [],
+      userLikedFuncData: [],
+      filteredUSerActivityData: [],
       isModalVisibleLikes: false,
-      isModalVisibleComments:false,
-      initials:""
+      isModalVisibleComments: false,
+      initials: "",
+      userComment: "",
+      currentPostData: "",
+      upComingEvents: [
+        {
+          title: "Suraj Chavan",
+          date: "28-09-2023",
+          img: "https://img.freepik.com/free-psd/banner-template-concert_23-2148403186.jpg?w=900&t=st=1686548330~exp=1686548930~hmac=5984a0d05bff62b43ee523837cc09e514eb65115cbeb143d62962785027b6541",
+        },
+        {
+          title: "Sarvesh Singh",
+          date: "28-09-2023",
+          img: "https://img.freepik.com/free-psd/music-festival-banner-template_23-2148911142.jpg?w=900&t=st=1686548401~exp=1686549001~hmac=3e60c4ece75b850bb41db661d4834025a315131de8ff544128fe4269c27e2f75",
+        },
+        {
+          title: "Aryan Pal",
+          date: "28-09-2023",
+          img: "https://img.freepik.com/free-psd/best-music-playlist-banner-template_23-2148644231.jpg?w=900&t=st=1686550971~exp=1686551571~hmac=6393c6c9e7e2062961a0773977ba6b4a8f658e1ed5449ea02c8ed78f3dcfa9fe",
+        },
+        {
+          title: "Shubham Devadiga",
+          date: "28-09-2023",
+          img: "https://img.freepik.com/free-vector/flat-design-trekking-twitch-banner_23-2149244215.jpg?w=996&t=st=1686551011~exp=1686551611~hmac=d49f4d7988dcfbdcb761c8abb0736fddb7f4574f27bd77345fa02a7a86900301",
+        },
+      ],
+      friendsData: [
+        {
+          name: "Akshay Kharande",
+          code: "SJ58969",
+          img: "https://media.istockphoto.com/id/1469792464/photo/portrait-of-young-man-with-glasses.jpg?s=1024x1024&w=is&k=20&c=BOz1GOmkPlQtlt1cdi6Tw0h8yHIYlCMqjEIUBMqvahE=",
+        },
+        {
+          name: "Shubham Devadiga",
+          code: "SJ58969",
+          img: "https://media.istockphoto.com/id/1184709924/photo/young-happy-guy-wearing-glasses-looking-at-camera-portrait.jpg?s=1024x1024&w=is&k=20&c=7e70CE5iUEwd0D7aA1QMFDdUgASJD25Pzy7bzYf9AFM=",
+        },
+        {
+          name: "Aryan Pal",
+          code: "SJ58969",
+          img: "https://media.istockphoto.com/id/1286942386/photo/portrait-of-sick-young-man-with-runny-nose-suffering-from-cold-or-flu-and-sneezing-while.jpg?s=1024x1024&w=is&k=20&c=FoKWjUMdCoa0P_SlUXl-E6-PTAMllTOHCsGIZgCpmfA=",
+        },
+        {
+          name: "Suraj Chavan",
+          code: "SJ58969",
+          img: "https://images.unsplash.com/photo-1600180758890-6b94519a8ba6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
+        },
+        {
+          name: "Harish Tiwari",
+          code: "SJ58969",
+          img: "https://media.istockphoto.com/id/1184709924/photo/young-happy-guy-wearing-glasses-looking-at-camera-portrait.jpg?s=1024x1024&w=is&k=20&c=7e70CE5iUEwd0D7aA1QMFDdUgASJD25Pzy7bzYf9AFM=",
+        },
+      ],
+      commentsData:[]
     };
   },
 
   created() {
-    this.fetchUserProfileData();
+    // this.fetchUserProfileData();
     this.fetchUserTimeline();
     this.fetchUserActivity();
   },
 
   methods: {
+    handleAddComment() {
+      let data = {
+        userId: this.currentPostData.user_id + "",
+        postId: this.currentPostData.post_id + "",
+        comment: this.userComment,
+      };
+      console.log("this.currentPostData", this.currentPostData);
+      fetch("http://192.168.0.165:2100/comments/create", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+        .then((response) => response.json())
+        .then(async (response) => {
+          console.log("comment added", response);
+          if (response.status == "success") {
+            this.userComment = '';
+            this.commentsData = response.data
+          }
+        })
+        .catch((error) => {
+          console.log("Create post error --->", error);
+        });
+    },
     // userLikeFunc(){
     //     this.userTimeLine.map((el) => {
     //         if(el.isLiked === true){
-              
+
     //         }
     //     })
     // },
 
-    handleComments(item){
+    handleComments(item) {
       this.isModalVisibleComments = true;
-      console.log('item',item);
-      
+      this.currentPostData = item;
+      fetch(`http://192.168.0.165:2100/comments/${item.post_id}`, {
+        method: "GET",
+        headers: { "content-type": "application/json" },
+      })
+        .then((response) => response.json())
+        .then(async (response) => {
+          if (response.status == "success") {
+            this.commentsData = response.data;
+          }
+        })
+        .catch((error) => {
+          console.error("There was an error!", error);
+        });
     },
     checkValueExists(array, value) {
       return array.some((obj) => Object.values(obj).includes(value));
@@ -485,18 +809,18 @@ export default {
       this.singlePostLikes = singleLikes;
     },
 
-    fetchUserActivity(){
-      console.log("user activity data", this.userActivityData)
+    fetchUserActivity() {
+      console.log("user activity data", this.userActivityData);
       this.filteredUSerActivityData = this.userActivityData.filter((el) => {
-        console.log("el",el);
-        el.user_id === sessionStorage.getItem('user_id');
-      })
+        console.log("el", el);
+        el.user_id === sessionStorage.getItem("user_id");
+      });
 
-      console.log("data",this.filteredUSerActivityData);
+      console.log("data", this.filteredUSerActivityData);
     },
 
     fetchUserTimeline() {
-      fetch("http://192.168.0.210:2100/postcl/getPostList", {
+      fetch("http://192.168.0.165:2100/postcl/getPostList", {
         method: "GET",
         headers: { "content-type": "application/json" },
       })
@@ -528,7 +852,9 @@ export default {
         .then((response) => response.json())
         .then(async (response) => {
           this.userProfileData = response.resData;
-          this.initials = this.userProfileData.f_name.charAt(0) + this.userProfileData.l_name.charAt(0);
+          this.initials =
+            this.userProfileData.f_name.charAt(0) +
+            this.userProfileData.l_name.charAt(0);
           console.log("response", response);
         })
         .catch((error) => {
@@ -553,7 +879,7 @@ export default {
       const formData = new FormData();
       formData.append("user_id", sessionStorage.getItem("user_id"));
       formData.append("image", this.$refs.image.files[0]);
-      fetch("http://192.168.0.210:2100/profile", {
+      fetch("http://192.168.0.165:2100/profile", {
         method: "POST",
         body: formData,
       })
@@ -577,7 +903,7 @@ export default {
 </script>
 <style scoped>
 .app-home {
-  background: #e9edf2;
+  background: #f5f5f5;
 }
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
