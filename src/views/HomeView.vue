@@ -109,10 +109,10 @@
                   />
                   <div class="flex-grow">
                     <h2 class="text-gray-900 title-font text-xs font-bold">
-                      <!-- {{ item.user_name }} -->
+                      {{ item.user_name }}
                     </h2>
                     <p class="text-gray-500 text-xs">
-                      <!-- {{ item.upload_time }} -->
+                      {{ new Date(item.upload_time).toLocaleDateString() }}
                     </p>
                   </div>
                 </div>
@@ -333,6 +333,7 @@
               <div class="flex flex-row justify-start items-center space-x-5">
                 <div>
                   <svg
+                    @click="handlePostLike(item,1)"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
@@ -350,6 +351,7 @@
                 </div>
                 <div>
                   <svg
+                    @click="handlePostLike(item,0)"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
@@ -613,9 +615,11 @@
               v-for="(item, ind) in commentsData"
               :key="ind"
             >
-              <div class="text-xs font-bold capitalize">{{ item.user_name }}</div>
+              <div class="text-xs font-bold capitalize">
+                {{ item.user_name }}
+              </div>
               <p class="text-xs font-medium">
-                {{item.comment}}
+                {{ item.comment }}
               </p>
             </div>
           </div>
@@ -738,17 +742,38 @@ export default {
           img: "https://media.istockphoto.com/id/1184709924/photo/young-happy-guy-wearing-glasses-looking-at-camera-portrait.jpg?s=1024x1024&w=is&k=20&c=7e70CE5iUEwd0D7aA1QMFDdUgASJD25Pzy7bzYf9AFM=",
         },
       ],
-      commentsData:[]
+      commentsData: [],
     };
   },
 
   created() {
     // this.fetchUserProfileData();
     this.fetchUserTimeline();
-    this.fetchUserActivity();
   },
 
   methods: {
+    handlePostLike(val,reactVal) {
+      let data = {
+        postId: val.post_id,
+        userId: sessionStorage.getItem("user_id"),
+        userReaction: reactVal,
+      };
+      fetch("http://192.168.0.165:2100/like/user_reaction", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+        .then((response) => response.json())
+        .then(async (response) => {
+          this.fetchUserTimeline();
+        })
+        .catch((error) => {
+          console.log("Create post error --->", error);
+        });
+    },
     handleAddComment() {
       let data = {
         userId: this.currentPostData.user_id + "",
@@ -768,8 +793,8 @@ export default {
         .then(async (response) => {
           console.log("comment added", response);
           if (response.status == "success") {
-            this.userComment = '';
-            this.commentsData = response.data
+            this.userComment = "";
+            this.commentsData = response.data;
           }
         })
         .catch((error) => {
@@ -809,13 +834,14 @@ export default {
       this.singlePostLikes = singleLikes;
     },
 
-    fetchUserActivity() {
-      console.log("user activity data", this.userActivityData);
-      this.filteredUSerActivityData = this.userActivityData.filter((el) => {
-        console.log("el", el);
-        el.user_id === sessionStorage.getItem("user_id");
+    fetchUserActivity(data) {
+      // console.log("user activity data", this.userActivityData);
+      this.filteredUSerActivityData = [];
+      data.map((el) => {
+        if (el.user_id == sessionStorage.getItem("user_id")) {
+          this.filteredUSerActivityData.push(el);
+        }
       });
-
       console.log("data", this.filteredUSerActivityData);
     },
 
@@ -828,8 +854,9 @@ export default {
         .then(async (response) => {
           if (response.status == "success") {
             this.userTimeLine = response.data;
+            this.fetchUserActivity(response.data);
             response.data.map((el, indx) => {
-              this.userActivityData.push(el);
+              // this.userActivityData.push(el);
               if (this.checkValueExists(el.child, el.user_name)) {
                 this.userTimeLine[indx]["isLiked"] = true;
               } else {
