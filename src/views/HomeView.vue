@@ -6,7 +6,7 @@
         <div class="col-span-2 w-full">
           <div class="main-container">
             <div
-              class="w-full rounded-md shadow-md border border-gray-300 py-3 px-5"
+              class="w-full rounded-md shadow-md bg-white border border-gray-300 py-3 px-5"
             >
               <div class="flex flex-row justify-between items-center">
                 <div class="text-sm font-bold">Profile</div>
@@ -57,7 +57,7 @@
             </div>
 
             <div
-              class="w-full rounded-md shadow-md border border-gray-300 py-3 px-5 mt-5"
+              class="w-full rounded-md shadow-md bg-white border border-gray-300 py-3 px-5 mt-5"
             >
               <div class="flex flex-row justify-between items-center">
                 <div class="text-sm font-bold">Activity</div>
@@ -252,7 +252,7 @@
         </div>
         <div class="col-span-2 w-full">
           <div
-            class="w-full rounded-md shadow-md border border-gray-300 py-3 px-5"
+            class="w-full rounded-md shadow-md bg-white border border-gray-300 py-3 px-5"
           >
             <div class="flex flex-row justify-between items-center mb-4">
               <div class="text-left font-bold text-sm">Friends</div>
