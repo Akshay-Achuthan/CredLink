@@ -893,6 +893,7 @@ export default {
       this.isModalVisible = true;
     },
     hideModal() {
+      this.isModalVisibleLikes = false;
       this.isModalVisible = false;
     },
     hideModalComments() {
