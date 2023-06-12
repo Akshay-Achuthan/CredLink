@@ -1,5 +1,5 @@
 <template>
-  <header class="text-gray-600 body-font border-b border-gray-300 shadow-sm">
+  <header class="text-gray-600 body-font border-b bg-white border-gray-300 shadow-sm">
     <div
       class="container mx-auto flex flex-row justify-between px-10 py-3 items-center"
     >
@@ -75,6 +75,9 @@
               d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"
             />
           </svg>
+        </div>
+        <div class="ml-5">
+          <Notification />
         </div>
         <div class="ml-5">
           <img
@@ -153,6 +156,8 @@
   </header>
 </template>
 <script>
+import Notification from '@/components/Notifications.vue'
+
 export default {
   name: "Navbar",
   data() {
@@ -162,6 +167,9 @@ export default {
       postTitle: "",
       postCaption: "",
     };
+  },
+  components:{
+    'Notification': Notification
   },
   methods: {
     handleLogout() {
@@ -188,7 +196,7 @@ export default {
       formData.append("post_caption", this.postCaption);
       formData.append("image", this.$refs.image.files[0]);
       console.log("formData", formData);
-      fetch("http://192.168.0.210:2100/postcl/createPost", {
+      fetch("http://192.168.0.165:2100/postcl/createPost", {
         method: "POST",
         body: formData,
       })

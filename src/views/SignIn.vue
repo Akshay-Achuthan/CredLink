@@ -93,7 +93,7 @@ export default {
           'email': googleUser.getBasicProfile().gw
         }
         
-    fetch("http://192.168.0.210:2100/user/signup",
+    fetch("http://192.168.0.165:2100/user/signup",
     {
      method: "POST",
      headers:{'content-type': 'application/json'},
